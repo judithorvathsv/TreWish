@@ -17,14 +17,6 @@ namespace TreWishApi.Controllers
             _context = context;
         }
 
-        private UserResponse UserToResponse(User user)
-        {
-            return new UserResponse()
-            {
-                Name = user.Name,
-            };
-        }
-
         private WishResponse WishToResponse(Wish wish)
         {
             return new WishResponse()
@@ -35,7 +27,6 @@ namespace TreWishApi.Controllers
                 WebPageLink = wish.WebPageLink
             };
         }
-
 
         private UserResponse UserWithWishListsToResponse(User user)
         {
@@ -48,7 +39,6 @@ namespace TreWishApi.Controllers
             {
                 if (wish.PurchaserId == user.Id)
                 {
-
                     purchasedList.Add(WishToResponse(wish));
                 }
                 else if (wish.WisherId == user.Id)
@@ -67,8 +57,6 @@ namespace TreWishApi.Controllers
             return response;
         }
 
-
-
         [HttpGet("{id}")]
         public ActionResult<User> Get(int id)
         {
@@ -77,7 +65,7 @@ namespace TreWishApi.Controllers
             {
                 return NotFound();
             }
-            return Ok(UserToResponse(user));
+            return Ok(UserWithWishListsToResponse(user));
         }
 
         [HttpPost]
@@ -90,13 +78,13 @@ namespace TreWishApi.Controllers
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
-            var response = UserToResponse(user);
+            var response = UserWithWishListsToResponse(user);
 
             return CreatedAtAction("Get", new { id = user.Id }, response);
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetUserListWithWishes()
+        public async Task<ActionResult<List<UserResponse>>> GetUserListWithWishes()
         {
             var userResponseList = new List<UserResponse>();
 
