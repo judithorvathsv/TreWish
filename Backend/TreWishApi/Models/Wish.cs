@@ -12,8 +12,11 @@ namespace TreWishApi.Models
 
         public string? WebPageLink { get; set; }
 
-        public required int WisherId { get; set; }
 
-        public required int? PurchaserId { get; set; }
+        public required int WisherId { get; set; }
+        public int? PurchaserId { get; set; }
+
+        public virtual User Wisher { get; set; }
+        public virtual User Purchaser { get; set; }
     }
 }
