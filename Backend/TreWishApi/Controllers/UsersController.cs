@@ -1,3 +1,4 @@
+using System.Globalization;
 using Backend.Data;
 using Microsoft.AspNetCore.Mvc;
 using TreWishApi.Models;
@@ -34,7 +35,21 @@ namespace TreWishApi.Controllers
             return Ok(UserToResponse(user));
         }
 
-        
+        [HttpPost]
+        public async Task<IActionResult> Create(UserRequest request)
+        {
+            User user = new User()
+            {
+                Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(request.Name.ToLower())
+            };
+
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+            var response = UserToResponse(user);
+
+            return CreatedAtAction("Get", new { id = user.Id }, response);
+        }
+
 
 
 
