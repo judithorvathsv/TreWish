@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Backend.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,25 @@ namespace TreWishApi.Controllers
                 return NotFound();
             }
             return Ok(WishToResponse(wish));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(WishRequest request)
+        {
+            Wish wish = new Wish()
+            {
+                Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(request.Name.ToLower()),
+                Description = request.Description,
+                Price = request.Price,
+                WebPageLink = request.WebPageLink,
+                WisherId = 1
+            };
+
+            await _context.Wishes.AddAsync(wish);
+            await _context.SaveChangesAsync();
+            var response = WishToResponse(wish);
+
+            return CreatedAtAction("Get", new { id = wish.Id }, response);
         }
     }
 }
