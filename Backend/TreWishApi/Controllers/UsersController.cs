@@ -33,5 +33,10 @@ namespace TreWishApi.Controllers
             }
             return Ok(UserToResponse(user));
         }
+
+        
+
+
+
     }
 }
