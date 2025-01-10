@@ -30,4 +30,23 @@ public class UserTests : IClassFixture<OurApiWebFactory>
       response.Should().NotBeNull();
    }
 
+   [Fact]
+   public async Task Get_Should_Get_User_ById()
+   {
+      //Arrange
+      var request = new UserRequest()
+      {
+           Name = "User TestName 2",
+      };
+      var createResponse = await _webFactory.Client.PostAsJsonAsync("/api/users", request);
+
+      //Act      
+
+
+      //Assert
+      var response = await _webFactory.Client.GetFromJsonAsync<UserResponse>(createResponse.Headers.Location);
+      response.Should().NotBeNull();
+      response.Name.Should().Be("User Testname 2");
+   }
+
 }
