@@ -43,6 +43,66 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/Users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["UserResponse"][];
+                        "application/json": components["schemas"]["UserResponse"][];
+                        "text/json": components["schemas"]["UserResponse"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["UserRequest"];
+                    "text/json": components["schemas"]["UserRequest"];
+                    "application/*+json": components["schemas"]["UserRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -53,6 +113,14 @@ export interface components {
             name: string | null;
             wishedWishes?: components["schemas"]["Wish"][] | null;
             purchasedWishes?: components["schemas"]["Wish"][] | null;
+        };
+        UserRequest: {
+            name: string | null;
+        };
+        UserResponse: {
+            name?: string | null;
+            wishedWishes?: components["schemas"]["WishResponse"][] | null;
+            purchasedWishes?: components["schemas"]["WishResponse"][] | null;
         };
         Wish: {
             /** Format: int32 */
@@ -68,6 +136,13 @@ export interface components {
             purchaserId?: number | null;
             wisher?: components["schemas"]["User"];
             purchaser?: components["schemas"]["User"];
+        };
+        WishResponse: {
+            name?: string | null;
+            description?: string | null;
+            /** Format: double */
+            price?: number;
+            webPageLink?: string | null;
         };
     };
     responses: never;

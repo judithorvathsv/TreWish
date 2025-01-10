@@ -57,6 +57,20 @@ namespace TreWishApi.Controllers
             return response;
         }
 
+        private UserStatisticsResponse UserWithWishListToUserStatisticsResponse(User user)
+        {
+            var responseWithWishList = UserWithWishListsToResponse(user);
+            var statisticsResponse = new UserStatisticsResponse()
+            {
+                Name = user.Name,
+                WishedWishes = responseWithWishList.WishedWishes?.Count(),
+                PurchasedWishes = responseWithWishList.PurchasedWishes?.Count()
+            };
+
+            return statisticsResponse;
+
+        }
+
         [HttpGet("{id}")]
         public ActionResult<User> Get(int id)
         {
@@ -86,7 +100,7 @@ namespace TreWishApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<UserResponse>>> GetUserListWithWishes()
         {
-            var userResponseList = new List<UserResponse>();
+            var userResponseList = new List<UserStatisticsResponse>();
 
             var userWithPurchasedAndWantedWishes = await _context.Users
                                                             .Include(u => u.WishedWishes)
@@ -97,12 +111,11 @@ namespace TreWishApi.Controllers
 
             foreach (var user in userWithPurchasedAndWantedWishes)
             {
-                var response = UserWithWishListsToResponse(user);
+                var response = UserWithWishListToUserStatisticsResponse(user);
                 userResponseList.Add(response);
             }
             return Ok(userResponseList);
         }
-
 
 
 

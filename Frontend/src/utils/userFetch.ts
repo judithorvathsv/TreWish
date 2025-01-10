@@ -10,3 +10,7 @@ export const userWithAdressFetch = (id: number) => client.GET("/api/Users/{id}",
     }
 })
 
+
+export const allUserWitPurchasedAndWantedhWishes = () => client.GET("/api/Users", {
+});
+

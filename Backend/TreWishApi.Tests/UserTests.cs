@@ -48,7 +48,4 @@ public class UserTests : IClassFixture<OurApiWebFactory>
       response.Should().NotBeNull();
       response.Name.Should().Be("User Testname 2");
    }
-
-
-
 }
