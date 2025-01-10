@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
   
     return (
       <div>
-    <p>yeppeee</p>
+  
       </div>
     );
   }
