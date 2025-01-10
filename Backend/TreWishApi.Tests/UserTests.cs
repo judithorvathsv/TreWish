@@ -13,6 +13,7 @@ public class UserTests : IClassFixture<OurApiWebFactory>
    {
       _webFactory = ourApiWebFactory;
    }
+
    [Fact]
    public async Task Create_Should_Create_New_User()
    {
@@ -41,10 +42,9 @@ public class UserTests : IClassFixture<OurApiWebFactory>
       var createResponse = await _webFactory.Client.PostAsJsonAsync("/api/users", request);
 
       //Act      
-
-
-      //Assert
       var response = await _webFactory.Client.GetFromJsonAsync<UserResponse>(createResponse.Headers.Location);
+
+      //Assert     
       response.Should().NotBeNull();
       response.Name.Should().Be("User Testname 2");
    }
