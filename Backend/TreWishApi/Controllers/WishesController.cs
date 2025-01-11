@@ -69,7 +69,7 @@ namespace TreWishApi.Controllers
         [HttpGet]
         public ActionResult<WishResponseList> GetWishList()
         {
-            var wishes = _context.Wishes.Select(w => new WishResponseList
+            var wishes = _context.Wishes.Where(w=>w.PurchaserId==null || w.PurchaserId==0).Select(w => new WishResponseList
             {
                 Id = w.Id,
                 Name = w.Name,

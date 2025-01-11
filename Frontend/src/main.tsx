@@ -13,7 +13,7 @@ const router = createRouter({ routeTree });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <StrictMode>
-      <WishContextProvider>
+    <WishContextProvider>
       <RouterProvider router={router} />
     </WishContextProvider>
   </StrictMode>

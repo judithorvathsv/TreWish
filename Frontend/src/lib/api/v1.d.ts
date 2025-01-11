@@ -328,6 +328,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/Wishes/purchase/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["WishResponseList"];
+                        "application/json": components["schemas"]["WishResponseList"];
+                        "text/json": components["schemas"]["WishResponseList"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -388,6 +427,8 @@ export interface components {
             /** Format: double */
             price: number;
             webPageLink?: string | null;
+            /** Format: int32 */
+            purchaserId?: number | null;
         };
     };
     responses: never;

@@ -7,9 +7,10 @@ import { Link } from "@tanstack/react-router";
 const WishList = () => {
   const [wishes, setWishes] = useState<WishProps[]>([]);
   const [error, setError] = useState<string | unknown>("");
+  const [stateForRefresh, setStateForRefresh] = useState(false)
 
-  useEffect(() => {
-    const fetchUsers = async () => {
+ 
+    const fetchWishes = async () => {
       try {
         const response = await allWishes();
         if (response?.data && Array.isArray(response.data)) {
@@ -23,12 +24,17 @@ const WishList = () => {
       }
     };
 
-    fetchUsers();
-  }, []);
+  useEffect(() => {
+    fetchWishes();
+  }, [stateForRefresh]);
 
 
   const handleDelete = (id: number) => {
     setWishes(wishes.filter(wish => wish.id !== id)); 
+  };
+
+  const handleRefreshAfterPurchase = () => {
+    setStateForRefresh(prev => !prev);
   };
 
 
@@ -56,6 +62,7 @@ const WishList = () => {
               price={wishObject.price}
               webPageLink={wishObject.webPageLink}
               onDelete={handleDelete} 
+              onPurchase={handleRefreshAfterPurchase}
             />
           ))
         ) : (

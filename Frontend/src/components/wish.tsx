@@ -1,32 +1,34 @@
 import { useNavigate } from "@tanstack/react-router";
 import { WishProps } from "../types";
-import { deleteWish } from "../utils/wishFetch";
+import { deleteWish, purchaseWish } from "../utils/wishFetch";
 import { useContext, useState } from "react";
 import { WishContext } from "../context/wishContext";
 
-const Wish = ({ id, name, description, price, webPageLink, onDelete }: WishProps & { onDelete: (id: number) => void }) => {
-  const [isConfirming, setIsConfirming] = useState(false); 
+const Wish = ({ id, name, description, price, webPageLink, onDelete, onPurchase  }: WishProps & { onDelete: (id: number) => void; onPurchase: () => void }) => {
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [isConfirmingPurchase, setIsConfirmingPurchase] = useState(false);
   const [error, setError] = useState<string | unknown>("");
   const navigate = useNavigate();
   const { setWish } = useContext(WishContext);
 
   const handleDeleteClick = () => {
-    setIsConfirming(true); 
+    setIsConfirmingDelete(true);
   };
 
   const handleDelete = async () => {
     try {
       await deleteWish(id);
       onDelete(id);
+      alert("Wish deleted successfully!");
     } catch (error) {
-    setError(error);
+      setError(error);
       console.error("Error deleting wish:", error);
     }
-    setIsConfirming(false); 
+    setIsConfirmingDelete(false);
   };
 
-  const handleCancel = () => {
-    setIsConfirming(false); 
+  const handleCancelDelete = () => {
+    setIsConfirmingDelete(false);
   };
 
   const handleUpdate = () => { 
@@ -43,10 +45,25 @@ const Wish = ({ id, name, description, price, webPageLink, onDelete }: WishProps
     });
   };
 
-  const handlePurchase = () => {
-    
-  }
+  const handlePurchaseClick = () => {
+    setIsConfirmingPurchase(true); 
+  };
 
+  const handlePurchase = async () => {
+    try {
+      await purchaseWish(id);
+      alert("Wish purchased successfully!");
+      onPurchase();
+    } catch (error) {
+      setError(error); 
+      console.error("Error purchasing wish:", error);
+    }
+    setIsConfirmingPurchase(false);
+  };
+
+  const handleCancelPurchase = () => {
+    setIsConfirmingPurchase(false); 
+  };
 
   if (error)
     return (
@@ -55,6 +72,7 @@ const Wish = ({ id, name, description, price, webPageLink, onDelete }: WishProps
         {typeof error === "string" ? error : "An error occurred. Try again"}
       </div>
     );
+
   return (
     <div>
       <section>
@@ -65,17 +83,26 @@ const Wish = ({ id, name, description, price, webPageLink, onDelete }: WishProps
         <p>id: <b>{id}</b></p>
       </section>
 
-      {isConfirming ? (
+      {/* Delete Confirmation */}
+      {isConfirmingDelete ? (
         <section>
           <p>Do you really want to delete it?</p>
           <button onClick={handleDelete}>Yes</button>
-          <button onClick={handleCancel}>Cancel</button>
+          <button onClick={handleCancelDelete}>Cancel</button>
+        </section>
+      ) : isConfirmingPurchase ? (
+        // Purchase Confirmation
+        <section>
+          <p>Do you really want to purchase this wish?</p>
+          <button onClick={handlePurchase}>Yes</button>
+          <button onClick={handleCancelPurchase}>Cancel</button>
         </section>
       ) : (
+        // Main Action Buttons
         <section>
           <button onClick={handleDeleteClick}>Delete</button>     
           <button onClick={handleUpdate}>Update</button>  
-          <button onClick={handlePurchase}>Purchase</button>  
+          <button onClick={handlePurchaseClick}>Purchase</button>  
         </section>
       )}
     </div>
@@ -83,4 +110,3 @@ const Wish = ({ id, name, description, price, webPageLink, onDelete }: WishProps
 };
 
 export default Wish;
-
