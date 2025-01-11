@@ -227,8 +227,50 @@ namespace TreWishApi.Tests
         }
 
 
-        
+        [Fact]
+        public async Task GetWishListPurchasedForUser_Should_Get_Purchased_Wishes_For_Logged_In_User()
+        {
+            // Arrange
+            var userRequest = new UserRequest()
+            {
+                Name = "User TestName 13",
+            };
 
+            var userCreateResponse = await _webFactory.Client.PostAsJsonAsync("/api/users", userRequest);
+            var userId = int.Parse(userCreateResponse.Headers.Location.Segments.Last());
+
+            var wishRequest1 = new WishRequest()
+            {
+                Name = "Wish Test 9",
+                Description = "9th Wish",
+                Price = 9.7,
+                WisherId = userId
+            };
+
+            var wishRequest2 = new WishRequest()
+            {
+                Name = "Wish Test 10",
+                Description = "10th Wish",
+                Price = 10.8,
+                WisherId = userId
+            };
+            var createResponse1 = await _webFactory.Client.PostAsJsonAsync("/api/wishes", wishRequest1);
+            var wishResponse1 = await createResponse1.Content.ReadFromJsonAsync<WishResponseList>();
+            var wishId1 = wishResponse1!.Id;
+
+            var createResponse2 = await _webFactory.Client.PostAsJsonAsync("/api/wishes", wishRequest2);
+            var wishResponse2 = await createResponse2.Content.ReadFromJsonAsync<WishResponseList>();
+            var wishId2 = wishResponse2!.Id;
+            await _webFactory.Client.PutAsJsonAsync($"/api/wishes/purchase/{wishId1}", new { });
+
+            // Act     
+            var responseList = await _webFactory.Client.GetFromJsonAsync<IEnumerable<WishResponse>>("/api/wishes/purchased");
+
+            // Assert          
+            responseList.Should().NotBeNull();
+            responseList.Count().Should().Be(1);
+            responseList.Should().Contain(c => c.Name == "Wish Test 9");
+        }
 
 
 
