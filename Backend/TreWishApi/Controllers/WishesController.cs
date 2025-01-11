@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using Backend.Data;
 using Microsoft.AspNetCore.Mvc;
 using TreWishApi.Interfaces;
@@ -25,7 +22,6 @@ namespace TreWishApi.Controllers
 
         private WishResponse WishToResponse(Wish wish)
         {
-
             return new WishResponse()
             {
                 Name = wish.Name,
@@ -62,15 +58,25 @@ namespace TreWishApi.Controllers
 
             await _context.Wishes.AddAsync(wish);
             await _context.SaveChangesAsync();
+
             var response = WishToResponse(wish);
 
             return CreatedAtAction("Get", new { id = wish.Id }, response);
         }
 
         [HttpGet]
-        public ActionResult<Wish> GetWishList()
+        public ActionResult<WishResponseList> GetWishList()
         {
-            return Ok(_context.Wishes.ToList());
+            var wishes = _context.Wishes.Select(w => new WishResponseList
+            {
+                Id = w.Id,
+                Name = w.Name,
+                Description = w.Description,
+                Price = w.Price,
+                WebPageLink = w.WebPageLink
+            })
+         .ToList();
+            return Ok(wishes);
         }
     }
 }

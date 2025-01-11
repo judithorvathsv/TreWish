@@ -1,8 +1,8 @@
-
-namespace TreWishApi.Models
+namespace TreWishApi.Models.Dtos
 {
-    public class WishRequest
+    public class WishResponseList
     {
+        public int Id { get; set; }
         public required string Name { get; set; }
 
         public string? Description { get; set; }
@@ -10,7 +10,5 @@ namespace TreWishApi.Models
         public required double Price { get; set; }
 
         public string? WebPageLink { get; set; }
-
-        public int? WisherId { get; set; }
     }
 }

@@ -15,3 +15,6 @@ export type WishProps = {
     price:number,
     webPageLink?:string
 }
+
+
+

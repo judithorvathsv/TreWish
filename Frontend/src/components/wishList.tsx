@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { allWishes } from "../utils/wishFetch";
 import { WishProps } from "../types";
 import Wish from "./wish";
+import { Link } from "@tanstack/react-router";
 
 const WishList = () => {
   const [wishes, setWishes] = useState<WishProps[]>([]);
@@ -11,7 +12,11 @@ const WishList = () => {
     const fetchUsers = async () => {
       try {
         const response = await allWishes();
-        setWishes(response.data as WishProps[]);
+        if (response?.data && Array.isArray(response.data)) {
+          setWishes(response.data);
+        } else {
+          setWishes([]);
+        }
       } catch (err) {
         setError(err);
         console.error("Error fetching users:", err);
@@ -30,18 +35,27 @@ const WishList = () => {
     );
 
   return (
-    <div>
-      {wishes.map((wishObject) => (
-        <Wish
-          key={wishObject.id}
-          id={wishObject.id}
-          name={wishObject.name}
-          description={wishObject.description}
-          price={wishObject.price}
-          webPageLink={wishObject.webPageLink}
-        />
-      ))}
-    </div>
+    <>
+      <div>
+        <Link to="/createWishForm">Create New Wish</Link>
+      </div>
+      <div>
+        {wishes.length > 0 ? (
+          wishes.map((wishObject) => (
+            <Wish
+              key={wishObject.id}
+              id={wishObject.id}
+              name={wishObject.name}
+              description={wishObject.description}
+              price={wishObject.price}
+              webPageLink={wishObject.webPageLink}
+            />
+          ))
+        ) : (
+          <div>No wishes available</div>
+        )}
+      </div>
+    </>
   );
 };
 
