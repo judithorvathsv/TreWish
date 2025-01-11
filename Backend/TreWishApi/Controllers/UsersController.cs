@@ -95,8 +95,9 @@ namespace TreWishApi.Controllers
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
-            var response = UserWithWishListsToResponse(user);
+            _userService.SetUserId(user.Id.ToString());
 
+            var response = UserWithWishListsToResponse(user);
             return CreatedAtAction("Get", new { id = user.Id }, response);
         }
 
@@ -120,16 +121,29 @@ namespace TreWishApi.Controllers
             return Ok(userResponseList);
         }
 
-        [HttpPost("sendUserEmail")]
+        [HttpPost("login/sendUserEmail")]
         public async Task<IActionResult> Login([FromBody] UserRequest request)
         {
             var user = _context.Users.FirstOrDefault(u => u.Name == request.Name);
             if (user is null)
-            {             
+            {
                 return NotFound();
             }
             _userService.SetUserId(user.Id.ToString());
-            return Ok(new { message = "Data received successfully" });
+            return Ok(new { message = "User logged in successfully" });
+        }
+
+        [HttpPost("register/sendUserEmail")]
+        public async Task<IActionResult> Register([FromBody] UserRequest request)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Name == request.Name);
+            if (user is null)
+            {
+                await Create(request);
+                return Ok(new { message = "User registered successfully" });
+            }
+
+            return Ok(new { message = "User already registered successfully" });
         }
     }
 
