@@ -49,5 +49,43 @@ namespace TreWishApi.Tests
             response.Should().NotBeNull();
         }
 
+        [Fact]
+        public async Task GetWishList_Should_Get_All_Wishes()
+        {
+            //Arrange
+            var userRequest = new UserRequest()
+            {
+                Name = "User TestName 8",
+            };
+
+            var userCreateResponse = await _webFactory.Client.PostAsJsonAsync("/api/users", userRequest);
+
+            var userId = int.Parse(userCreateResponse.Headers.Location.Segments.Last());
+
+            var wishRequest1 = new WishRequest()
+            {
+                Name = "Wish Test 3",
+                Description = "3th Wish",
+                Price = 3.3,
+                WisherId = userId
+            };
+            var wishRequest2 = new WishRequest()
+            {
+                Name = "Wish Test 4",
+                Description = "4th Wish",
+                Price = 4.4,
+                WisherId = userId
+            };
+            await _webFactory.Client.PostAsJsonAsync("/api/wishes", wishRequest1);
+            await _webFactory.Client.PostAsJsonAsync("/api/wishes", wishRequest2);
+
+            //Act      
+            var responseList = await _webFactory.Client.GetFromJsonAsync<IEnumerable<Wish>>("/api/wishes");
+
+            //Assert          
+            responseList.Count().Should().BeGreaterThanOrEqualTo(2);
+            responseList.Should().Contain(c => c.Name == "Wish Test 4");
+        }
+
     }
 }
