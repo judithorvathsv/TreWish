@@ -75,8 +75,23 @@ namespace TreWishApi.Controllers
                 Price = w.Price,
                 WebPageLink = w.WebPageLink
             })
-         .ToList();
+            .ToList();
             return Ok(wishes);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var wish = _context.Wishes.FirstOrDefault(w => w.Id == id);
+
+            if (wish is null)
+            {
+                return NotFound();
+            }
+
+            _context.Wishes.Remove(wish);
+            _context.SaveChanges();
+            return NoContent();
         }
     }
 }
