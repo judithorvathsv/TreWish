@@ -48,6 +48,7 @@ const WishList = () => {
 
   return (
     <>
+     <h2>All Wishes</h2>
       <div>
         <Link to="/createWishForm">Create New Wish</Link>
       </div>

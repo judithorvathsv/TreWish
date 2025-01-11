@@ -33,6 +33,7 @@ const Statistics = () => {
 
   return (
     <div>
+      <h2>Statistics</h2>
       {users.map((userObject) => (
         <User
           key={userObject.name}
