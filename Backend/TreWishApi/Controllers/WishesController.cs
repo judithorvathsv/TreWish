@@ -66,5 +66,11 @@ namespace TreWishApi.Controllers
 
             return CreatedAtAction("Get", new { id = wish.Id }, response);
         }
+
+                [HttpGet]
+        public ActionResult<Wish> GetWishList()
+        {
+            return Ok(_context.Wishes.ToList());
+        }
     }
 }
