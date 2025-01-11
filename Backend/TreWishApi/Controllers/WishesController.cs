@@ -51,11 +51,6 @@ namespace TreWishApi.Controllers
         {
             var id = _userService.GetUserId();
 
-            if (string.IsNullOrEmpty(id))
-            {
-                return NotFound("User is not inlogged.");
-            }
-
             Wish wish = new Wish()
             {
                 Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(request.Name.ToLower()),

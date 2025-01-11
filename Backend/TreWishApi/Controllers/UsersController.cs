@@ -123,16 +123,10 @@ namespace TreWishApi.Controllers
         [HttpPost("sendUserEmail")]
         public async Task<IActionResult> Login([FromBody] UserRequest request)
         {
-            if (request.Name == null)
-            {
-                return BadRequest("Name is required");
-            }
-
             var user = _context.Users.FirstOrDefault(u => u.Name == request.Name);
             if (user is null)
-            {
-                await Create(request);
-                return Ok(new { message = "User saved successfully" });
+            {             
+                return NotFound();
             }
             _userService.SetUserId(user.Id.ToString());
             return Ok(new { message = "Data received successfully" });

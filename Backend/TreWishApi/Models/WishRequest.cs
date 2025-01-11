@@ -11,5 +11,7 @@ namespace TreWishApi.Models
 
         public string? WebPageLink { get; set; }
 
+        public required int WisherId { get; set; }
+
     }
 }
