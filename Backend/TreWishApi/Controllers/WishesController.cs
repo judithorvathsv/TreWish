@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Backend.Data;
 using Microsoft.AspNetCore.Mvc;
+using TreWishApi.Interfaces;
 using TreWishApi.Models;
 using TreWishApi.Models.Dtos;
 
@@ -14,9 +15,12 @@ namespace TreWishApi.Controllers
     public class WishesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public WishesController(ApplicationDbContext context)
+        private readonly IUserService _userService;
+
+        public WishesController(ApplicationDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         private WishResponse WishToResponse(Wish wish)
@@ -45,13 +49,20 @@ namespace TreWishApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(WishRequest request)
         {
+            var id = _userService.GetUserId();
+
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound("User is not inlogged.");
+            }
+
             Wish wish = new Wish()
             {
                 Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(request.Name.ToLower()),
                 Description = request.Description,
                 Price = request.Price,
                 WebPageLink = request.WebPageLink,
-                WisherId = 1
+                WisherId = int.Parse(id)
             };
 
             await _context.Wishes.AddAsync(wish);

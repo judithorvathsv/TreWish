@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using TreWishApi.Models;
 using TreWishApi.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
+using TreWishApi.Interfaces;
 
 namespace TreWishApi.Controllers
 {
@@ -12,9 +13,11 @@ namespace TreWishApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public UsersController(ApplicationDbContext context)
+        private readonly IUserService _userService;
+        public UsersController(ApplicationDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         private WishResponse WishToResponse(Wish wish)
@@ -117,8 +120,30 @@ namespace TreWishApi.Controllers
             return Ok(userResponseList);
         }
 
+        [HttpPost("sendUserEmail")]
+        public async Task<IActionResult> Login([FromBody] UserRequest request)
+        {
+            if (request.Name == null)
+            {
+                return BadRequest("Name is required");
+            }
 
-
-
+            var user = _context.Users.FirstOrDefault(u => u.Name == request.Name);
+            if (user is null)
+            {
+                await Create(request);
+                return Ok(new { message = "User saved successfully" });
+            }
+            _userService.SetUserId(user.Id.ToString());
+            return Ok(new { message = "Data received successfully" });
+        }
     }
+
+
+
+
+
+
+
+
 }

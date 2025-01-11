@@ -26,8 +26,7 @@ const Statistics = () => {
   if (error)
     return (
       <div>
-        Error loading users:{" "}
-        {typeof error === "string" ? error : "An error occurred"}
+        Error loading users:{typeof error === "string" ? error : "An error occurred"}
       </div>
     );
 

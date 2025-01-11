@@ -1,5 +1,7 @@
 using Backend.Data;
 using Microsoft.EntityFrameworkCore;
+using TreWishApi.Interfaces;
+using TreWishApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,8 @@ builder.Services.AddSwaggerGen();
 
 var connectionsString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ApplicationDbContext>(o=>o.UseSqlServer(connectionsString));
+
+builder.Services.AddSingleton<IUserService, UserService>();
 
 var app = builder.Build();
 
