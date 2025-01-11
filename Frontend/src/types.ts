@@ -8,3 +8,13 @@ export type StatisticsUserResponsePropsShort = {
   wishedWishes?: number;
   purchasedWishes?: number;
 };
+
+export type WishesProps = components["schemas"]["User"][];
+
+export type WishProps = {
+    id:number,
+    name:string,
+    description?:string,
+    price:number,
+    webPageLink?:string
+}

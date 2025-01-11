@@ -25,7 +25,7 @@ const Register = () => {
               setError("Network response was not ok");
             }
       
-            navigate({ to: "/statistics" });
+            navigate({ to: "/wishList" });
           } catch (error) {
             setError("Register error");
             console.error("Error sending data:", error);

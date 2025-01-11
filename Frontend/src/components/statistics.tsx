@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { allUserWitPurchasedAndWantedhWishes } from "../utils/userFetch";
-import User from "./User";
+import User from "./user";
 import { StatisticsUserResponseProps } from "../types";
 
 const Statistics = () => {
