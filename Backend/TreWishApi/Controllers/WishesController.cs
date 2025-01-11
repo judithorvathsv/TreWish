@@ -31,12 +31,12 @@ namespace TreWishApi.Controllers
             };
         }
 
-        
+
         private WishResponseList WishToResponseList(Wish wish)
         {
             return new WishResponseList()
             {
-                Id  = wish.Id ,
+                Id = wish.Id,
                 Name = wish.Name,
                 Description = wish.Description,
                 Price = wish.Price,
@@ -105,6 +105,26 @@ namespace TreWishApi.Controllers
             _context.Wishes.Remove(wish);
             _context.SaveChanges();
             return NoContent();
+        }
+
+
+        [HttpPut("{id}")]
+        public ActionResult<WishResponse> Update(int id, WishResponse request)
+        {
+            var wishToUpdate = _context.Wishes.FirstOrDefault(w => w.Id == id);
+
+            if (wishToUpdate is null)
+            {
+                return NotFound();
+            }
+
+            wishToUpdate.Name = request.Name;
+            wishToUpdate.Description = request.Description;
+            wishToUpdate.Price = request.Price;
+            wishToUpdate.WebPageLink = request.WebPageLink;
+
+            _context.SaveChanges();
+            return Ok(WishToResponseList(wishToUpdate));
         }
     }
 }

@@ -50,7 +50,7 @@ const Wish = ({ id, name, description, price, webPageLink, onDelete }: WishProps
         </section>
       ) : (
         <section>
-          <button onClick={handleDeleteClick}>Delete</button>
+          <button onClick={handleDeleteClick}>Delete</button>     
         </section>
       )}
     </div>
