@@ -76,7 +76,7 @@ namespace TreWishApi.Tests
             await _webFactory.Client.PostAsJsonAsync("/api/wishes", wishRequest2);
 
             //Act      
-            var responseList = await _webFactory.Client.GetFromJsonAsync<IEnumerable<WishResponse>>("/api/wishes");
+            var responseList = await _webFactory.Client.GetFromJsonAsync<IEnumerable<WishResponseList>>("/api/wishes");
 
             //Assert          
             responseList.Count().Should().BeGreaterThanOrEqualTo(2);
@@ -225,6 +225,9 @@ namespace TreWishApi.Tests
             var updatedWish = await _webFactory.Client.GetFromJsonAsync<WishResponseList>($"/api/wishes/{wishId}");
             updatedWish.PurchaserId.Should().NotBeNull();
         }
+
+
+        
 
 
 

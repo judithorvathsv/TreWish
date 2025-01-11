@@ -69,9 +69,26 @@ namespace TreWishApi.Controllers
         [HttpGet]
         public ActionResult<WishResponseList> GetWishList()
         {
-            var wishes = _context.Wishes.Where(w=>w.PurchaserId==null || w.PurchaserId==0).Select(w => new WishResponseList
+            var wishes = _context.Wishes.Where(w => w.PurchaserId == null || w.PurchaserId == 0)
+                                        .Select(w => new WishResponseList
+                                        {
+                                            Id = w.Id,
+                                            Name = w.Name,
+                                            Description = w.Description,
+                                            Price = w.Price,
+                                            WebPageLink = w.WebPageLink
+                                        })
+                                        .ToList();
+            return Ok(wishes);
+        }
+
+        [HttpGet("purchased")]
+        public ActionResult<WishResponse> GetWishListPurchasedForUser()
+        {
+            var userId = _userService.GetUserId();
+
+            var wishes = _context.Wishes.Where(w => w.PurchaserId > 0 && w.WisherId.ToString() == userId).Select(w => new WishResponse
             {
-                Id = w.Id,
                 Name = w.Name,
                 Description = w.Description,
                 Price = w.Price,
@@ -127,11 +144,11 @@ namespace TreWishApi.Controllers
             }
 
             var userId = _userService.GetUserId();
-     
+
             wishToUpdate.PurchaserId = int.Parse(userId);
             _context.Wishes.Update(wishToUpdate);
-            _context.SaveChanges();          
-             return Ok(WishToResponseList(wishToUpdate));         
+            _context.SaveChanges();
+            return Ok(WishToResponseList(wishToUpdate));
         }
     }
 }
