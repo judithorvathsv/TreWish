@@ -26,6 +26,12 @@ const WishList = () => {
     fetchUsers();
   }, []);
 
+
+  const handleDelete = (id: number) => {
+    setWishes(wishes.filter(wish => wish.id !== id)); 
+  };
+
+
   if (error)
     return (
       <div>
@@ -49,6 +55,7 @@ const WishList = () => {
               description={wishObject.description}
               price={wishObject.price}
               webPageLink={wishObject.webPageLink}
+              onDelete={handleDelete} 
             />
           ))
         ) : (

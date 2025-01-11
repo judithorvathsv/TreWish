@@ -1,8 +1,6 @@
 import createClient from "openapi-fetch";
 import type { paths } from "../lib/api/v1";
 
-
-
 const client = createClient<paths>({ baseUrl: "http://localhost:5035/" });
 
 export const allWishes = () => client.GET("/api/Wishes", {});
@@ -19,4 +17,11 @@ export const saveNewWish = (name: string, description: string, price: string, we
       body: wishRequest, 
     });
   };
+
+export const deleteWish = (id: number) => client.DELETE("/api/Wishes/{id}", {
+    params: {
+      path: { id: id },
+      query: undefined,
+    },
+  });
   
