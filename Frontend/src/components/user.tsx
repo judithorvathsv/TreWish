@@ -1,6 +1,6 @@
-import { StatisticsUserResponsePropsShort } from "../types"
+import { StatisticsUserResponseProps } from "../types"
 
-const User = ({name, wishedWishes, purchasedWishes}: StatisticsUserResponsePropsShort) => {
+const User = ({name, wishedWishes, purchasedWishes}: StatisticsUserResponseProps) => {
   return (
     <div>
       <p>Name: <b>{name}</b></p> 
