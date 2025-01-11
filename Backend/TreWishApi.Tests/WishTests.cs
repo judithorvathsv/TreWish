@@ -30,7 +30,7 @@ namespace TreWishApi.Tests
             };
 
             var userCreateResponse = await _webFactory.Client.PostAsJsonAsync("/api/users", userRequest);
-            //var userResponse = await _webFactory.Client.GetFromJsonAsync<UserResponse>(userCreateResponse.Headers.Location);
+
             var userId = int.Parse(userCreateResponse.Headers.Location.Segments.Last());
 
             var wishRequest = new WishRequest()
@@ -43,7 +43,6 @@ namespace TreWishApi.Tests
 
             //Act      
             var createResponse = await _webFactory.Client.PostAsJsonAsync("/api/wishes", wishRequest);
-
 
             //Assert
             var response = await _webFactory.Client.GetFromJsonAsync<WishResponse>(createResponse.Headers.Location);
