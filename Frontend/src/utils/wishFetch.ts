@@ -50,6 +50,8 @@ export const purchaseWish = (id: number) => {
   });
 };
 
+export const purchasedWishList = () => client.GET("/api/Wishes/purchased", {});
+
 
 
 
