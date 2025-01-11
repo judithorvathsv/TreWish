@@ -71,7 +71,6 @@ namespace TreWishApi.Controllers
             };
 
             return statisticsResponse;
-
         }
 
         [HttpGet("{id}")]
@@ -121,6 +120,7 @@ namespace TreWishApi.Controllers
             return Ok(userResponseList);
         }
 
+
         [HttpPost("login/sendUserEmail")]
         public async Task<IActionResult> Login([FromBody] UserRequest request)
         {
@@ -132,6 +132,7 @@ namespace TreWishApi.Controllers
             _userService.SetUserId(user.Id.ToString());
             return Ok(new { message = "User logged in successfully" });
         }
+
 
         [HttpPost("register/sendUserEmail")]
         public async Task<IActionResult> Register([FromBody] UserRequest request)

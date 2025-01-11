@@ -43,6 +43,10 @@ const Wish = ({ id, name, description, price, webPageLink, onDelete }: WishProps
     });
   };
 
+  const handlePurchase = () => {
+    
+  }
+
 
   if (error)
     return (
@@ -71,6 +75,7 @@ const Wish = ({ id, name, description, price, webPageLink, onDelete }: WishProps
         <section>
           <button onClick={handleDeleteClick}>Delete</button>     
           <button onClick={handleUpdate}>Update</button>  
+          <button onClick={handlePurchase}>Purchase</button>  
         </section>
       )}
     </div>

@@ -10,5 +10,7 @@ namespace TreWishApi.Models.Dtos
         public required double Price { get; set; }
 
         public string? WebPageLink { get; set; }
+
+        public int? PurchaserId { get; set; }
     }
 }

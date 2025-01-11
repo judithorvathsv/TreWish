@@ -20,18 +20,6 @@ namespace TreWishApi.Controllers
             _userService = userService;
         }
 
-        private WishResponse WishToResponse(Wish wish)
-        {
-            return new WishResponse()
-            {
-                Name = wish.Name,
-                Description = wish.Description,
-                Price = wish.Price,
-                WebPageLink = wish.WebPageLink
-            };
-        }
-
-
         private WishResponseList WishToResponseList(Wish wish)
         {
             return new WishResponseList()
@@ -40,7 +28,8 @@ namespace TreWishApi.Controllers
                 Name = wish.Name,
                 Description = wish.Description,
                 Price = wish.Price,
-                WebPageLink = wish.WebPageLink
+                WebPageLink = wish.WebPageLink,
+                PurchaserId = wish.PurchaserId
             };
         }
 
@@ -52,7 +41,7 @@ namespace TreWishApi.Controllers
             {
                 return NotFound();
             }
-            return Ok(WishToResponse(wish));
+            return Ok(WishToResponseList(wish));
         }
 
         [HttpPost]
@@ -110,7 +99,7 @@ namespace TreWishApi.Controllers
 
         [HttpPut("{id}")]
         public ActionResult<WishResponseList> Update(WishResponseList request)
-        {          
+        {
             var wishToUpdate = _context.Wishes.FirstOrDefault(w => w.Id == request.Id);
 
             if (wishToUpdate is null)
@@ -122,9 +111,27 @@ namespace TreWishApi.Controllers
             wishToUpdate.Description = request.Description;
             wishToUpdate.Price = request.Price;
             wishToUpdate.WebPageLink = request.WebPageLink;
-
+            _context.Wishes.Update(wishToUpdate);
             _context.SaveChanges();
             return Ok(WishToResponseList(wishToUpdate));
+        }
+
+        [HttpPut("purchase/{id}")]
+        public ActionResult<WishResponseList> Update(int id)
+        {
+            var wishToUpdate = _context.Wishes.FirstOrDefault(w => w.Id == id);
+
+            if (wishToUpdate is null)
+            {
+                return NotFound();
+            }
+
+            var userId = _userService.GetUserId();
+     
+            wishToUpdate.PurchaserId = int.Parse(userId);
+            _context.Wishes.Update(wishToUpdate);
+            _context.SaveChanges();          
+             return Ok(WishToResponseList(wishToUpdate));         
         }
     }
 }

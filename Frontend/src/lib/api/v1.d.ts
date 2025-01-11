@@ -370,6 +370,8 @@ export interface components {
             webPageLink?: string | null;
             /** Format: int32 */
             wisherId?: number | null;
+            /** Format: int32 */
+            purchaserId?: number | null;
         };
         WishResponse: {
             name?: string | null;

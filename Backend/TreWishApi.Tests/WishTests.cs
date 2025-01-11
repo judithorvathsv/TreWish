@@ -194,6 +194,41 @@ namespace TreWishApi.Tests
         }
 
 
+        [Fact]
+        public async Task Update_Should_Update_PurchaserId_After_Purchase()
+        {
+            // Arrange
+            var userRequest = new UserRequest()
+            {
+                Name = "User TestName 12",
+            };
+
+            var userCreateResponse = await _webFactory.Client.PostAsJsonAsync("/api/users", userRequest);
+            var userId = int.Parse(userCreateResponse.Headers.Location.Segments.Last());
+
+            var wishRequest = new WishRequest()
+            {
+                Name = "Wish Test 8",
+                Description = "8th Wish",
+                Price = 10.10,
+                WisherId = userId
+            };
+
+            var createWishResponse = await _webFactory.Client.PostAsJsonAsync("/api/wishes", wishRequest);
+            var wishResponse = await createWishResponse.Content.ReadFromJsonAsync<WishResponseList>();
+            var wishId = wishResponse!.Id;
+
+            // Act
+            await _webFactory.Client.PutAsJsonAsync($"/api/wishes/purchase/{wishId}", new { });
+
+            // Assert            
+            var updatedWish = await _webFactory.Client.GetFromJsonAsync<WishResponseList>($"/api/wishes/{wishId}");
+            updatedWish.PurchaserId.Should().NotBeNull();
+        }
+
+
+
+
 
     }
 }
