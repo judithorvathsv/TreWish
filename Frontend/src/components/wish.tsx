@@ -1,10 +1,14 @@
+import { useNavigate } from "@tanstack/react-router";
 import { WishProps } from "../types";
 import { deleteWish } from "../utils/wishFetch";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { WishContext } from "../context/wishContext";
 
 const Wish = ({ id, name, description, price, webPageLink, onDelete }: WishProps & { onDelete: (id: number) => void }) => {
   const [isConfirming, setIsConfirming] = useState(false); 
   const [error, setError] = useState<string | unknown>("");
+  const navigate = useNavigate();
+  const { setWish } = useContext(WishContext);
 
   const handleDeleteClick = () => {
     setIsConfirming(true); 
@@ -24,6 +28,21 @@ const Wish = ({ id, name, description, price, webPageLink, onDelete }: WishProps
   const handleCancel = () => {
     setIsConfirming(false); 
   };
+
+  const handleUpdate = () => { 
+    setWish({
+      id,
+      name,
+      description,
+      price,
+      webPageLink
+    });
+   
+    navigate({
+      to: "/updateWishForm",
+    });
+  };
+
 
   if (error)
     return (
@@ -51,6 +70,7 @@ const Wish = ({ id, name, description, price, webPageLink, onDelete }: WishProps
       ) : (
         <section>
           <button onClick={handleDeleteClick}>Delete</button>     
+          <button onClick={handleUpdate}>Update</button>  
         </section>
       )}
     </div>

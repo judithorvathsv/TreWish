@@ -24,4 +24,27 @@ export const deleteWish = (id: number) => client.DELETE("/api/Wishes/{id}", {
       query: undefined,
     },
   });
+
+
+  export const updateWish = (id: number, name: string, description: string, price: string, webPageLink: string) => {
+    const wishRequest = {
+        id,
+        name,
+        description,
+        price: parseFloat(price), 
+        webPageLink,
+    };  
+
+    return client.PUT("/api/Wishes/{id}", {
+        params: {
+            path: { id: id.toString() }},  
+        body: wishRequest, 
+    });
+};
+
+
+
+
+
+  
   

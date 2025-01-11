@@ -150,6 +150,50 @@ namespace TreWishApi.Tests
             getResponse.Name.Should().Be(wishRequest.Name);
         }
 
+        [Fact]
+        public async Task Update_Should_Update_A_Wish()
+        {
+            // Arrange
+            var userRequest = new UserRequest()
+            {
+                Name = "User TestName 11",
+            };
+
+            var userCreateResponse = await _webFactory.Client.PostAsJsonAsync("/api/users", userRequest);
+            var userId = int.Parse(userCreateResponse.Headers.Location.Segments.Last());
+
+            var wishRequest = new WishRequest()
+            {
+                Name = "Wish Test 7",
+                Description = "7th Wish",
+                Price = 7.7,
+                WisherId = userId
+            };
+
+            var createResponse = await _webFactory.Client.PostAsJsonAsync("/api/wishes", wishRequest);
+            var wishResponse = await createResponse.Content.ReadFromJsonAsync<WishResponseList>();
+            var wishId = wishResponse!.Id;
+
+            var updatedWishRequest = new WishResponseList()
+            {
+                Id = wishId,
+                Name = "Updated Wish 7",
+                Description = "Updated 7th Wish",
+                Price = 8.8,
+                WebPageLink = "https://updatedlink.com"
+            };
+
+            // Act
+            var updateResponse = await _webFactory.Client.PutAsJsonAsync($"/api/wishes/{wishId}", updatedWishRequest);
+
+            //Assert
+            updateResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            var updatedWishResponse = await updateResponse.Content.ReadFromJsonAsync<WishResponseList>();
+            updatedWishResponse!.Name.Should().Be(updatedWishRequest.Name);
+            updatedWishResponse!.WebPageLink.Should().Be(updatedWishRequest.WebPageLink);
+        }
+
+
 
     }
 }

@@ -109,9 +109,9 @@ namespace TreWishApi.Controllers
 
 
         [HttpPut("{id}")]
-        public ActionResult<WishResponse> Update(int id, WishResponse request)
-        {
-            var wishToUpdate = _context.Wishes.FirstOrDefault(w => w.Id == id);
+        public ActionResult<WishResponseList> Update(WishResponseList request)
+        {          
+            var wishToUpdate = _context.Wishes.FirstOrDefault(w => w.Id == request.Id);
 
             if (wishToUpdate is null)
             {

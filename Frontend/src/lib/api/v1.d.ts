@@ -212,7 +212,36 @@ export interface paths {
                 };
             };
         };
-        put?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["WishResponseList"];
+                    "text/json": components["schemas"]["WishResponseList"];
+                    "application/*+json": components["schemas"]["WishResponseList"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["WishResponseList"];
+                        "application/json": components["schemas"]["WishResponseList"];
+                        "text/json": components["schemas"]["WishResponseList"];
+                    };
+                };
+            };
+        };
         post?: never;
         delete: {
             parameters: {
