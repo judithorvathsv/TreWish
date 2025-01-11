@@ -105,7 +105,7 @@ namespace TreWishApi.Tests
             };
 
             var createResponse = await _webFactory.Client.PostAsJsonAsync("/api/wishes", wishRequest1);
-           
+
             var wishResponse = await createResponse.Content.ReadFromJsonAsync<WishResponseList>();
             var wishId = wishResponse!.Id;
 
@@ -114,6 +114,40 @@ namespace TreWishApi.Tests
 
             // Assert
             deleteResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
+        }
+
+
+        [Fact]
+        public async Task GetWish_Should_Get_Wish_ById()
+        {
+            // Arrange
+            var userRequest = new UserRequest()
+            {
+                Name = "User TestName 10",
+            };
+
+            var userCreateResponse = await _webFactory.Client.PostAsJsonAsync("/api/users", userRequest);
+            var userId = int.Parse(userCreateResponse.Headers.Location.Segments.Last());
+
+            var wishRequest = new WishRequest()
+            {
+                Name = "Wish Test 6",
+                Description = "6th Wish",
+                Price = 3.3,
+                WisherId = userId
+            };
+
+            var createResponse = await _webFactory.Client.PostAsJsonAsync("/api/wishes", wishRequest);
+
+            var wishResponse = await createResponse.Content.ReadFromJsonAsync<WishResponseList>();
+            var wishId = wishResponse!.Id;
+
+            // Act
+            var getResponse = await _webFactory.Client.GetFromJsonAsync<WishResponseList>($"/api/wishes/{wishId}");
+
+            // Assert
+            getResponse.Should().NotBeNull();
+            getResponse.Name.Should().Be(wishRequest.Name);
         }
 
 
