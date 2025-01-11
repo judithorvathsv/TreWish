@@ -80,12 +80,44 @@ namespace TreWishApi.Tests
             await _webFactory.Client.PostAsJsonAsync("/api/wishes", wishRequest2);
 
             //Act      
-            var responseList = await _webFactory.Client.GetFromJsonAsync<IEnumerable<Wish>>("/api/wishes");
+            var responseList = await _webFactory.Client.GetFromJsonAsync<IEnumerable<WishResponse>>("/api/wishes");
 
             //Assert          
             responseList.Count().Should().BeGreaterThanOrEqualTo(2);
             responseList.Should().Contain(c => c.Name == "Wish Test 4");
         }
+
+        //         [Fact]
+        // public async Task DeleteWish_Should_Delete_Wish_ById()
+        // {
+        //     //Arrange
+        //     var userRequest = new UserRequest()
+        //     {
+        //         Name = "User TestName 9",
+        //     };
+
+        //     var userCreateResponse = await _webFactory.Client.PostAsJsonAsync("/api/users", userRequest);
+
+        //     var userId = int.Parse(userCreateResponse.Headers.Location.Segments.Last());
+
+        //     var wishRequest1 = new WishRequest()
+        //     {
+        //         Name = "Wish Test 5",
+        //         Description = "5th Wish",
+        //         Price = 3.3,
+        //         WisherId = userId
+        //     };
+
+        //     var createReponse =  await _webFactory.Client.PostAsJsonAsync("/api/wishes", wishRequest1);
+        //     var response = await createReponse.Content.ReadFromJsonAsync<Wish>();
+        //     var wishId = response!.Id;
+
+        //     //Act      
+        //     var deleteResponse = await _webFactory.Client.DeleteAsync($"/api/wishes/{wishId}");
+
+        //     //Assert          
+        //      deleteResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);  
+        // }
 
     }
 }
