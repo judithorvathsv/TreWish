@@ -87,37 +87,39 @@ namespace TreWishApi.Tests
             responseList.Should().Contain(c => c.Name == "Wish Test 4");
         }
 
-        //         [Fact]
-        // public async Task DeleteWish_Should_Delete_Wish_ById()
-        // {
-        //     //Arrange
-        //     var userRequest = new UserRequest()
-        //     {
-        //         Name = "User TestName 9",
-        //     };
 
-        //     var userCreateResponse = await _webFactory.Client.PostAsJsonAsync("/api/users", userRequest);
+        [Fact]
+        public async Task DeleteWish_Should_Delete_Wish_ById()
+        {
+            // Arrange
+            var userRequest = new UserRequest()
+            {
+                Name = "User TestName 9",
+            };
 
-        //     var userId = int.Parse(userCreateResponse.Headers.Location.Segments.Last());
+            var userCreateResponse = await _webFactory.Client.PostAsJsonAsync("/api/users", userRequest);
+            var userId = int.Parse(userCreateResponse.Headers.Location.Segments.Last());
 
-        //     var wishRequest1 = new WishRequest()
-        //     {
-        //         Name = "Wish Test 5",
-        //         Description = "5th Wish",
-        //         Price = 3.3,
-        //         WisherId = userId
-        //     };
+            var wishRequest1 = new WishRequest()
+            {
+                Name = "Wish Test 5",
+                Description = "5th Wish",
+                Price = 3.3,
+                WisherId = userId
+            };
 
-        //     var createReponse =  await _webFactory.Client.PostAsJsonAsync("/api/wishes", wishRequest1);
-        //     var response = await createReponse.Content.ReadFromJsonAsync<Wish>();
-        //     var wishId = response!.Id;
+            var createResponse = await _webFactory.Client.PostAsJsonAsync("/api/wishes", wishRequest1);
+           
+            var wishResponse = await createResponse.Content.ReadFromJsonAsync<WishResponseList>();
+            var wishId = wishResponse!.Id;
 
-        //     //Act      
-        //     var deleteResponse = await _webFactory.Client.DeleteAsync($"/api/wishes/{wishId}");
+            // Act
+            var deleteResponse = await _webFactory.Client.DeleteAsync($"/api/wishes/{wishId}");
 
-        //     //Assert          
-        //      deleteResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);  
-        // }
+            // Assert
+            deleteResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
+        }
+
 
     }
 }

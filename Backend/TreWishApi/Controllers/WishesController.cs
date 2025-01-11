@@ -31,6 +31,19 @@ namespace TreWishApi.Controllers
             };
         }
 
+        
+        private WishResponseList WishToResponseList(Wish wish)
+        {
+            return new WishResponseList()
+            {
+                Id  = wish.Id ,
+                Name = wish.Name,
+                Description = wish.Description,
+                Price = wish.Price,
+                WebPageLink = wish.WebPageLink
+            };
+        }
+
         [HttpGet("{id}")]
         public ActionResult<Wish> Get(int id)
         {
@@ -59,7 +72,7 @@ namespace TreWishApi.Controllers
             await _context.Wishes.AddAsync(wish);
             await _context.SaveChangesAsync();
 
-            var response = WishToResponse(wish);
+            var response = WishToResponseList(wish);
 
             return CreatedAtAction("Get", new { id = wish.Id }, response);
         }
@@ -82,7 +95,7 @@ namespace TreWishApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var wish = _context.Wishes.FirstOrDefault(w => w.Id == id);
+            var wish = _context.Wishes.Where(w => w.Id == id).FirstOrDefault();
 
             if (wish is null)
             {
