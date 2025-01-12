@@ -4,7 +4,15 @@ import { deleteWish, purchaseWish } from "../utils/wishFetch";
 import { useContext, useState } from "react";
 import { WishContext } from "../context/wishContext";
 
-const Wish = ({ id, name, description, price, webPageLink, onDelete, onPurchase  }: WishProps & { onDelete: (id: number) => void; onPurchase: () => void }) => {
+const Wish = ({
+  id,
+  name,
+  description,
+  price,
+  webPageLink,
+  onDelete,
+  onPurchase,
+}: WishProps & { onDelete: (id: number) => void; onPurchase: () => void }) => {
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [isConfirmingPurchase, setIsConfirmingPurchase] = useState(false);
   const [error, setError] = useState<string | unknown>("");
@@ -31,22 +39,22 @@ const Wish = ({ id, name, description, price, webPageLink, onDelete, onPurchase 
     setIsConfirmingDelete(false);
   };
 
-  const handleUpdate = () => { 
+  const handleUpdate = () => {
     setWish({
       id,
       name,
       description,
       price,
-      webPageLink
+      webPageLink,
     });
-   
+
     navigate({
       to: "/updateWishForm",
     });
   };
 
   const handlePurchaseClick = () => {
-    setIsConfirmingPurchase(true); 
+    setIsConfirmingPurchase(true);
   };
 
   const handlePurchase = async () => {
@@ -55,14 +63,14 @@ const Wish = ({ id, name, description, price, webPageLink, onDelete, onPurchase 
       alert("Wish purchased successfully!");
       onPurchase();
     } catch (error) {
-      setError(error); 
+      setError(error);
       console.error("Error purchasing wish:", error);
     }
     setIsConfirmingPurchase(false);
   };
 
   const handleCancelPurchase = () => {
-    setIsConfirmingPurchase(false); 
+    setIsConfirmingPurchase(false);
   };
 
   if (error)
@@ -76,10 +84,12 @@ const Wish = ({ id, name, description, price, webPageLink, onDelete, onPurchase 
   return (
     <div>
       <section>
-        <p>Name: <b>{name}</b></p>
+        <p>
+          Name: <b>{name}</b>
+        </p>
         <p>Description: {description}</p>
         <p>Price: {price}</p>
-        <p>WebPageLink: {webPageLink}</p>    
+        <p>WebPageLink: {webPageLink}</p>
       </section>
 
       {/* Delete Confirmation */}
@@ -99,9 +109,9 @@ const Wish = ({ id, name, description, price, webPageLink, onDelete, onPurchase 
       ) : (
         // Main Action Buttons
         <section>
-          <button onClick={handleDeleteClick}>Delete</button>     
-          <button onClick={handleUpdate}>Update</button>  
-          <button onClick={handlePurchaseClick}>Purchase</button>  
+          <button onClick={handleDeleteClick}>Delete</button>
+          <button onClick={handleUpdate}>Update</button>
+          <button onClick={handlePurchaseClick}>Purchase</button>
         </section>
       )}
     </div>

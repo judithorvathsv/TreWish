@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { saveNewWish } from "../utils/wishFetch";
+import { WishContext } from "../context/wishContext";
 
 const CreateWishForm = () => {
+  const { refreshWishList } = useContext(WishContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -59,11 +61,13 @@ const CreateWishForm = () => {
           formData.price,
           formData.webPageLink
         );
+        alert("Wish added successfully!");
+        refreshWishList();
         navigate({ to: "/wishList" });
       } catch (error) {
         console.error("Error saving wish:", error);
         setSubmitError("Failed to create wish. Please try again.");
-      }     
+      }
     }
   };
 

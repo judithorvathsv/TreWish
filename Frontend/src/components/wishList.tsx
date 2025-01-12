@@ -1,44 +1,40 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { allWishes } from "../utils/wishFetch";
 import { WishProps } from "../types";
 import Wish from "./wish";
 import { Link } from "@tanstack/react-router";
+import { WishContext } from "../context/wishContext";
 
 const WishList = () => {
   const [wishes, setWishes] = useState<WishProps[]>([]);
   const [error, setError] = useState<string | unknown>("");
-  const [stateForRefresh, setStateForRefresh] = useState(false)
+  const { refreshWishList } = useContext(WishContext);
 
-
-
- 
-    const fetchWishes = async () => {
-      try {
-        const response = await allWishes();
-        if (response?.data && Array.isArray(response.data)) {
-          setWishes(response.data);
-        } else {
-          setWishes([]);
-        }
-      } catch (err) {
-        setError(err);
-        console.error("Error fetching users:", err);
+  const fetchWishes = async () => {
+    try {
+      const response = await allWishes();
+      if (response?.data && Array.isArray(response.data)) {
+        setWishes(response.data);
+      } else {
+        setWishes([]);
       }
-    };
+    } catch (err) {
+      setError(err);
+      console.error("Error fetching users:", err);
+    }
+  };
 
   useEffect(() => {
     fetchWishes();
-  }, [stateForRefresh]);
-
+  }, [refreshWishList]);
 
   const handleDelete = (id: number) => {
-    setWishes(wishes.filter(wish => wish.id !== id)); 
+    setWishes(wishes.filter((wish) => wish.id !== id));
   };
 
   const handleRefreshAfterPurchase = () => {
-    setStateForRefresh(prev => !prev);
+    refreshWishList();
   };
-
 
   if (error)
     return (
@@ -50,7 +46,7 @@ const WishList = () => {
 
   return (
     <>
-     <h2>All Wishes</h2>
+      <h2>All Wishes</h2>
       <div>
         <Link to="/createWishForm">Create New Wish</Link>
       </div>
@@ -64,7 +60,7 @@ const WishList = () => {
               description={wishObject.description}
               price={wishObject.price}
               webPageLink={wishObject.webPageLink}
-              onDelete={handleDelete} 
+              onDelete={handleDelete}
               onPurchase={handleRefreshAfterPurchase}
             />
           ))

@@ -7,7 +7,7 @@ const UpdateWishForm = () => {
   const navigate = useNavigate();
   const { wish, setWish } = useContext(WishContext);
 
-const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     id: wish?.id || "",
     name: wish?.name || "",
     description: wish?.description || "",
@@ -15,14 +15,12 @@ const [formData, setFormData] = useState({
     webPageLink: wish?.webPageLink || "",
   });
 
-
   const [errors, setErrors] = useState({
     name: "",
     price: "",
   });
 
   const [submitError, setSubmitError] = useState("");
-
 
   const handleCancel = () => {
     navigate({ to: "/wishList" });
@@ -56,11 +54,10 @@ const [formData, setFormData] = useState({
     return isValid;
   };
 
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
-        console.log('Submitting wish with id:', formData.id);
+      console.log("Submitting wish with id:", formData.id);
       try {
         updateWish(
           Number(formData.id),
@@ -71,11 +68,13 @@ const [formData, setFormData] = useState({
         );
 
         setWish({
-            ...formData,
-            id: Number(formData.id),
-            price: Number(formData.price),
-          });
-   
+          ...formData,
+          id: Number(formData.id),
+          price: Number(formData.price),
+        });
+
+        alert("Wish updated successfully!");
+
         navigate({ to: "/wishList" });
       } catch (error) {
         console.error("Error updating wish:", error);
@@ -95,7 +94,7 @@ const [formData, setFormData] = useState({
 
   return (
     <div>
-      <h2>Create New Wish</h2>
+      <h2>Update Wish</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Name:</label>
@@ -150,4 +149,4 @@ const [formData, setFormData] = useState({
   );
 };
 
-export default UpdateWishForm
+export default UpdateWishForm;

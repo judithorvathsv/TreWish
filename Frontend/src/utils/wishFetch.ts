@@ -42,8 +42,7 @@ export const deleteWish = (id: number) => client.DELETE("/api/Wishes/{id}", {
     });
 };
 
-export const purchaseWish = (id: number) => {
-  alert('called')
+export const purchaseWish = (id: number) => { 
   return client.PUT("/api/Wishes/purchase/{id}", {
       params: {
           path: { id }},  
