@@ -51,6 +51,8 @@ export const purchaseWish = (id: number) => {
 
 export const purchasedWishList = () => client.GET("/api/Wishes/purchased", {});
 
+export const basket = () => client.GET("/api/Wishes/purchased/basket", {});
+
 
 
 

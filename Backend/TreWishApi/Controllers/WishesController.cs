@@ -98,6 +98,29 @@ namespace TreWishApi.Controllers
             return Ok(wishes);
         }
 
+        [HttpGet("purchased/basket")]
+        public ActionResult<TotalBasketResponse> GetBasketWithWishListPurchasedByUser()
+        {
+            var userId = _userService.GetUserId();
+
+            var wishes = _context.Wishes.Where(w => w.PurchaserId.ToString() == userId).Select(w => new BasketWishResponse
+            {
+                Name = w.Name,        
+                Price = w.Price,
+                WisherName = _context.Users.FirstOrDefault(u => u.Id == w.WisherId)!.Name
+            })
+            .ToList();
+
+            var totalPrice = wishes.Sum(w => w.Price);
+
+            var basket = new TotalBasketResponse()
+            {
+                BasketWishes = wishes,
+                TotalPrice = totalPrice
+            };
+            return Ok(basket);
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -150,5 +173,8 @@ namespace TreWishApi.Controllers
             _context.SaveChanges();
             return Ok(WishToResponseList(wishToUpdate));
         }
+
+
+
     }
 }

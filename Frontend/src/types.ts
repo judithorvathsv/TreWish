@@ -15,3 +15,14 @@ export type WishProps = {
   price: number;
   webPageLink?: string;
 };
+
+export type BasketWishProps = {
+  name: string;
+  price: number;
+  wisherName: string;
+};
+
+// export type TotalBasketProps = {
+//   basketWishes: BasketWishProps [] | null;
+//   totalPrice: number;
+// };

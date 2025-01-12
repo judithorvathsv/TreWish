@@ -18,6 +18,10 @@ const NavBar = () => {
       <div>
         <Link to="/purchasedWishList">Purchased Wishes List</Link>
       </div>
+
+      <div>
+        <Link to="/totalBasket">Basket</Link>
+      </div>
     </>
   );
 };
