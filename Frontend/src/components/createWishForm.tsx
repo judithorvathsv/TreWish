@@ -63,8 +63,7 @@ const CreateWishForm = () => {
       } catch (error) {
         console.error("Error saving wish:", error);
         setSubmitError("Failed to create wish. Please try again.");
-      }
-      navigate({ to: "/wishList" });
+      }     
     }
   };
 

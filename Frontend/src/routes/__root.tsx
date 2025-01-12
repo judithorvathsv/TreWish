@@ -6,12 +6,11 @@ import NavBar from "../components/NavBar";
 export const Route = createRootRoute({
   component: () => (
     <>
-      <div>            
-        <NavBar/>
+      <div>
+        <NavBar />
       </div>
       <Outlet />
       <TanStackRouterDevtools />
     </>
   ),
 });
-

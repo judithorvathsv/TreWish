@@ -37,7 +37,7 @@ public class UserTests : IClassFixture<OurApiWebFactory>
       //Arrange
       var request = new UserRequest()
       {
-           Name = "User TestName 2",
+         Name = "User TestName 2",
       };
       var createResponse = await _webFactory.Client.PostAsJsonAsync("/api/users", request);
 
@@ -47,5 +47,6 @@ public class UserTests : IClassFixture<OurApiWebFactory>
       //Assert     
       response.Should().NotBeNull();
       response.Name.Should().Be("User Testname 2");
-   }
+   }  
+
 }

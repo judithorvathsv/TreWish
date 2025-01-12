@@ -9,6 +9,8 @@ const WishList = () => {
   const [error, setError] = useState<string | unknown>("");
   const [stateForRefresh, setStateForRefresh] = useState(false)
 
+
+
  
     const fetchWishes = async () => {
       try {
