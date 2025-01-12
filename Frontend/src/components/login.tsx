@@ -22,10 +22,14 @@ const Login = () => {
       );
 
       if (!response.ok) {
-        setError("Network response was not ok");
-      }
-
-      navigate({ to: "/wishList" });
+        if (response.status === 404) {
+          setError("User not found. Please check your email.");
+        } else {
+          setError("Network response was not ok");
+        }
+      } else{
+        navigate({ to: "/wishList" });
+      }    
     } catch (error) {
       setError("Inloggning error");
       console.error("Error sending data:", error);
