@@ -8,15 +8,12 @@ const PurchasedWish = ({
 }: WishProps) => {
   return (
     <>
-      <h2>Your purchased Wishes</h2>
-      <div>
-        <p>
-          Name: <b>{name}</b>
-        </p>
-        <p>Description: {description}</p>
-        <p>Price: {price}</p>
-        <p>WebPageLink: {webPageLink}</p>
-      </div>
+      <p>
+        Name: <b>{name}</b>
+      </p>
+      <p>Description: {description}</p>
+      <p>Price: {price}</p>
+      <p>WebPageLink: {webPageLink}</p>
     </>
   );
 };

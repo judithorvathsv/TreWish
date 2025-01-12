@@ -36,6 +36,7 @@ const PurchasedWishList = () => {
     
       return (
         <>   
+          <h2>Your purchased Wishes</h2>
           <div>
             {wishes.length > 0 ? (
               wishes.map((wishObject) => (
