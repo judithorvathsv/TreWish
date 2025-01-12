@@ -18,5 +18,14 @@ namespace TreWishApi.Models
 
         public virtual User Wisher { get; set; }
         public virtual User Purchaser { get; set; }
+
+        public PaymentStatus PaymentStatus { get; set; }
     }
+}
+
+public enum PaymentStatus
+{
+    Pending,
+    Paid,
+    Failed
 }

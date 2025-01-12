@@ -402,6 +402,39 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/Wishes/purchased/basket/pay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/Wishes/purchase/{id}": {
         parameters: {
             query?: never;
@@ -451,10 +484,15 @@ export interface components {
             price: number;
             wisherName: string | null;
         };
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        PaymentStatus: 0 | 1 | 2;
         TotalBasketResponse: {
             basketWishes: components["schemas"]["BasketWishResponse"][] | null;
             /** Format: double */
-            totalPrice: number;
+            totalPrice?: number;
         };
         User: {
             /** Format: int32 */
@@ -485,6 +523,7 @@ export interface components {
             purchaserId?: number | null;
             wisher?: components["schemas"]["User"];
             purchaser?: components["schemas"]["User"];
+            paymentStatus?: components["schemas"]["PaymentStatus"];
         };
         WishRequest: {
             name: string | null;

@@ -53,7 +53,7 @@ export const purchasedWishList = () => client.GET("/api/Wishes/purchased", {});
 
 export const basket = () => client.GET("/api/Wishes/purchased/basket", {});
 
-
+export const pay = () => client.GET("/api/Wishes/purchased/basket/pay", {});
 
 
 

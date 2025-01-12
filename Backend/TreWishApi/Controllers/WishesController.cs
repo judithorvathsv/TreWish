@@ -104,8 +104,8 @@ namespace TreWishApi.Controllers
             var userId = _userService.GetUserId();
 
             var wishes = _context.Wishes.Where(w => w.PurchaserId.ToString() == userId).Select(w => new BasketWishResponse
-            {
-                Name = w.Name,        
+            {              
+                Name = w.Name,
                 Price = w.Price,
                 WisherName = _context.Users.FirstOrDefault(u => u.Id == w.WisherId)!.Name
             })
@@ -121,6 +121,32 @@ namespace TreWishApi.Controllers
             return Ok(basket);
         }
 
+
+        [HttpGet("purchased/basket/pay")]
+        public async Task<ActionResult> PayForWishes()
+        {
+            var userId = _userService.GetUserId();
+
+            var wishes = _context.Wishes
+                .Where(w => w.PurchaserId.ToString() == userId && w.PaymentStatus == PaymentStatus.Pending)
+                .ToList();
+
+            if (!wishes.Any())
+            {
+                return BadRequest("No pending wishes found for payment.");
+            }
+
+            foreach (var wish in wishes)
+            {
+                wish.PaymentStatus = PaymentStatus.Paid;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Payment successful for all pending wishes.", wishes });
+        }
+
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -135,7 +161,6 @@ namespace TreWishApi.Controllers
             _context.SaveChanges();
             return NoContent();
         }
-
 
         [HttpPut("{id}")]
         public ActionResult<WishResponseList> Update(WishResponseList request)

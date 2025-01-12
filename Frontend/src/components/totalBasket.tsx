@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { basket } from "../utils/wishFetch";
+import { basket, pay } from "../utils/wishFetch";
 import { BasketWishProps } from "../types";
 import BasketWish from "./basketWish";
 
@@ -32,6 +32,10 @@ const TotalBasket = () => {
     fetchWishes();
   }, []);
 
+  const handlePay = async() => {
+    await pay();
+  }
+
   if (error)
     return (
       <div>
@@ -43,7 +47,7 @@ const TotalBasket = () => {
   return (
     <>
       <h2>Your Backet</h2>
-      <div>
+      <div style={{ marginBottom: "3rem" }}>
         {wishes.length > 0 ? (
           wishes.map((wishObject) => (
             <BasketWish
@@ -59,6 +63,7 @@ const TotalBasket = () => {
 
         <p>
           <b>Total Price: {totalPrice}</b>
+          <button onClick={handlePay}>Pay</button>
         </p>
       </div>
     </>
