@@ -55,6 +55,8 @@ export const basket = () => client.GET("/api/Wishes/purchased/basket", {});
 
 export const pay = () => client.GET("/api/Wishes/purchased/basket/pay", {});
 
+export const cancelPay = () => client.GET("/api/Wishes/purchased/basket/pay/cancel", {});
+
 
 
   

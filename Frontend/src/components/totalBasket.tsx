@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { basket, pay } from "../utils/wishFetch";
+import { basket, cancelPay, pay } from "../utils/wishFetch";
 import { BasketWishProps } from "../types";
 import BasketWish from "./basketWish";
 import { useNavigate } from "@tanstack/react-router";
@@ -43,7 +43,10 @@ const TotalBasket = () => {
   }
 
   const cancelHandlePay = async() => {
-    alert('not ready, it should change the purchaseid to null')
+    alert('Cancelled, backet is empty.')
+    refreshWishList();
+    navigate({ to: "/wishList" });
+    await cancelPay();
   }
   
 
@@ -75,7 +78,7 @@ const TotalBasket = () => {
         <p>
           <b>Total Price: {totalPrice}</b>
           <button onClick={handlePay}>Pay</button>
-          <button onClick={cancelHandlePay}>Pay</button>
+          <button onClick={cancelHandlePay}>Cancel</button>
         </p>
       </div>
     </>
