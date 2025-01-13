@@ -60,7 +60,7 @@ const Wish = ({
   const handlePurchase = async () => {
     try {
       await purchaseWish(id);
-      alert("Wish purchased successfully!");
+      alert("Go to backet or continue purchase!");
       onPurchase();
     } catch (error) {
       setError(error);

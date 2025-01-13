@@ -103,7 +103,7 @@ namespace TreWishApi.Controllers
         {
             var userId = _userService.GetUserId();
 
-            var wishes = _context.Wishes.Where(w => w.PurchaserId.ToString() == userId).Select(w => new BasketWishResponse
+            var wishes = _context.Wishes.Where(w => w.PurchaserId.ToString() == userId && w.PaymentStatus != PaymentStatus.Paid).Select(w => new BasketWishResponse
             {              
                 Name = w.Name,
                 Price = w.Price,

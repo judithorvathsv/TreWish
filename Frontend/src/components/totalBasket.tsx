@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { basket, pay } from "../utils/wishFetch";
 import { BasketWishProps } from "../types";
 import BasketWish from "./basketWish";
+import { useNavigate } from "@tanstack/react-router";
+import { WishContext } from "../context/wishContext";
 
 const TotalBasket = () => {
   const [wishes, setWishes] = useState<BasketWishProps[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [error, setError] = useState<string | unknown>("");
+   const navigate = useNavigate();
+     const { refreshWishList } = useContext(WishContext);
 
   const fetchWishes = async () => {
     try {
@@ -34,7 +38,14 @@ const TotalBasket = () => {
 
   const handlePay = async() => {
     await pay();
+    refreshWishList();
+    navigate({ to: "/wishList" });
   }
+
+  const cancelHandlePay = async() => {
+    alert('not ready, it should change the purchaseid to null')
+  }
+  
 
   if (error)
     return (
@@ -64,6 +75,7 @@ const TotalBasket = () => {
         <p>
           <b>Total Price: {totalPrice}</b>
           <button onClick={handlePay}>Pay</button>
+          <button onClick={cancelHandlePay}>Pay</button>
         </p>
       </div>
     </>
