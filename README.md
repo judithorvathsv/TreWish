@@ -3,37 +3,43 @@ This is a web application that allows users to create and share their wish lists
 # Overview
 ## The Wish List Website allows users to:
 
-Create, edit, and delete items from their personal wish lists.
-View and interact with wish lists created by others, including purchasing items.
-Keep track of purchased items via a shopping cart.
-Display statistics related to wish list creation and purchases.
-The tech stack includes:
+- Create, edit, and delete items from their personal wish lists.
+- View and interact with wish lists created by others, including purchasing items.
+- Keep track of purchased items via a shopping cart.
+- Display statistics related to wish list creation and purchases.
+- The tech stack includes:
 
-Backend: ASP.NET, Entity Framework, MS SQL Server
-Frontend: React, TypeScript, Tanstack Router
+- Backend: ASP.NET, Entity Framework, MS SQL Server
+- Frontend: React, TypeScript, Tanstack Router
 
 # Installation
+
 ## Prerequisites
-Backend:
 
-.NET SDK installed.
-MS SQL Server setup for database.
-Entity Framework tools installed for database migrations.
-Frontend:
+**Backend:**
 
-npm installed.
+- .NET SDK installed.  
+- MS SQL Server setup for database.  
+- Entity Framework tools installed for database migrations.
 
-# Challenges
-State Management: Managing the state of the application (e.g., wish list items, shopping cart) on the frontend with React.
-Database Design: Ensuring efficient tracking of purchased items and statistics.
-Authentication Simulation: to simulate login without real authentication.
-# Decisions
-Backend Logic: ASP.NET was used for API endpoints due to its scalability and integration with Entity Framework.
-Frontend Framework: React and TypeScript were used to ensure type safety and maintainable code.
+**Frontend:**
 
+- npm installed.
 
-Sprint Goals
-Sprint 1: Set up routing and database schema, CRUID
-Sprint 2: Testing.
-Sprint 3: Frontend desing.
-Sprint 4: Refactoring
+## Challenges
+
+- **State Management**: Managing the state of the application (e.g., wish list items, shopping cart) on the frontend with React.  
+- **Database Design**: Ensuring efficient tracking of purchased items and statistics.  
+- **Authentication Simulation**: To simulate login without real authentication.
+
+## Decisions
+
+- **Backend Logic**: ASP.NET was used for API endpoints due to its scalability and integration with Entity Framework.  
+- **Frontend Framework**: React and TypeScript were used to ensure type safety and maintainable code.
+
+## Sprint Goals
+
+1. **Sprint 1**: Set up routing and database schema, CRUD operations.  
+2. **Sprint 2**: Testing.  
+3. **Sprint 3**: Frontend design.  
+4. **Sprint 4**: Refactoring.
